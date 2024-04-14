@@ -4,7 +4,7 @@ Consul KV Endpoint Access
 """
 from consulate.api import base
 from consulate import utils, exceptions
-
+import json
 
 class KV(base.Endpoint):
     """The :py:class:`consul.api.KV` class implements a :py:class:`dict` like
@@ -171,6 +171,7 @@ class KV(base.Endpoint):
             results = response
         else:
             results = {}
+            response_json = json.dumps(response)
             for row in response:
                 results[row['Key']] = row['Value']
         return results
