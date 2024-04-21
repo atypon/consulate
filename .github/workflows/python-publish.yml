@@ -38,4 +38,4 @@ jobs:
             --non-interactive \
             dist/* \
             -u __token__ \
-            -p ${{ steps.token.outputs.sa_token }}
+            -p ${{ steps.token.outputs.token }}
