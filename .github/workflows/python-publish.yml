@@ -25,6 +25,12 @@ jobs:
       - name: Build package
         run: python -m build
 
+      - name: Get GKE credentials
+        uses: 'google-github-actions/get-gke-credentials@v2.1.0'
+        with:
+           project_id: "atypon-artifact"
+           location: 'us-central1-c'
+
       - name: get SA token for GCP auth
         id: token
         run: |
