@@ -20,6 +20,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install build twine google-auth google-auth-oauthlib
+          sudo apt update; sudo apt install -y curl jq
 
       - name: Build package
         run: python -m build
