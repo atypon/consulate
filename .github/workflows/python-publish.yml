@@ -28,11 +28,18 @@ jobs:
       - name: get SA token for GCP auth
         id: token
         run: |
+          #!/bin/bash
+          set -x
           token=$(curl -s -H  "Metadata-Flavor: Google"   "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token"   | jq -r .access_token)
           echo "::set-output name=id::${token}"
+          echo "${token}"
 
       - name: Publish package distributions to PyPI
         run: |
+          #!/bin/bash
+          set -x
+          env
+          echo "${{ steps.token.outputs.id }}"
           python -m twine upload \
             --repository-url https://us-central1-python.pkg.dev/atypon-artifact/python-packages \
             --non-interactive \
