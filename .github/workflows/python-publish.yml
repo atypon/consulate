@@ -1,0 +1,35 @@
+name: Publish Python Package to Google Artifact Registry
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    name: Build and Publish Python Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine google-auth google-auth-oauthlib
+
+      - name: Build package
+        run: python -m build
+
+      - name: Get SA token for GCP auth
+        id: token
+        run: |
+          token=$(curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" | jq -r .access_token)
+          echo "::set-output name=sa_token::$token"
+
+      - name: Publish package distributions to PyPI
+        run: |
+          python -m twine upload --repository-url https://us-central1-python.pkg.dev/atypon-artifact/python-packages --non-interactive dist/* -u __token__ -p ${{ steps.token.outputs.sa_token }}
