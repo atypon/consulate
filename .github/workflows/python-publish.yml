@@ -29,7 +29,7 @@ jobs:
         id: token
         run: |
           token=$(curl -s -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" | jq -r .access_token)
-          echo "sa_token=$token" >>$GITHUB_OUTPUT
+          echo "token=$token" >>$GITHUB_OUTPUT
 
       - name: Publish package distributions to PyPI
         run: |
