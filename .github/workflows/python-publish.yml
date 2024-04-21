@@ -32,4 +32,9 @@ jobs:
 
       - name: Publish package distributions to PyPI
         run: |
-          python -m twine upload --repository-url https://us-central1-python.pkg.dev/atypon-artifact/python-packages --non-interactive dist/* -u __token__ -p ${{ steps.token.outputs.sa_token }}
+          python -m twine upload \
+            --repository-url https://us-central1-python.pkg.dev/atypon-artifact/python-packages \
+            --non-interactive \
+            dist/* \
+            -u __token__ \
+            -p ${{ steps.token.outputs.sa_token }}
